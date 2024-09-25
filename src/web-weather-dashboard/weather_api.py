@@ -1,5 +1,10 @@
 from abc import ABC, abstractmethod
 import requests
+import os
+from dotenv import load_dotenv
+
+#load variables from .env file
+load_dotenv()
 
 class WeatherAPI(ABC):
     """
@@ -28,7 +33,7 @@ class OpenWeatherMapAPI(WeatherAPI):
         """
         Initializes the OpenWeatherMapAPI class with the API key and base URL.
         """
-        self.api_key = "123"
+        self.api_key = os.getenv("OPENWEATHERMAP_API_KEY")
         self.base_url = "http://api.openweathermap.org/data/2.5/weather" 
 
     def get_weather(self, location):
@@ -56,21 +61,21 @@ class OpenWeatherMapAPI(WeatherAPI):
             raise Exception(f"Failed to fetch weather data: {response.status.code}")
         pass
 
-class WeatherStackAPI(WeatherAPI):
+class TomorrowAPI(WeatherAPI):
     """
-    Class for fetching weather data from the WeatherAPI (WeatherStack) API.
+    Class for fetching weather data from the WeatherAPI (Tomorrow.io) API.
     Inherits from the WeatherAPI base class.
     """
     def __init__(self):
         """
-        Initializes the WeatherStackAPI class with the API key and base URL.
+        Initializes the TomorrowAPI class with the API key and base URL.
         """
-        self.api_key = "123"
+        self.api_key = os.getenv("TOMORROW_API_KEY")
         self.base_url = "http://api.weatherapi.com/v1/"
 
     def get_weather(self, location):
         """
-        Fetches weather data for a specific location using the WeatherAPI (WeatherStack) API.
+        Fetches weather data for a specific location using the WeatherAPI (Tomorrow.io) API.
 
         Args:
             location (str): The location (city name) for which weather data is to be fetched.
