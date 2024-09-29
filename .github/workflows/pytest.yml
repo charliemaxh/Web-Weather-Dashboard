@@ -27,11 +27,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
+    - name: Install Poetry using pip
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest
+        pip install poetry
+
+    - name: Install dependencies with Poetry
+      run: |
+        poetry install
 
     - name: Run Pytest
-      run: pytest
+      run: |
+        poetry run pytest
