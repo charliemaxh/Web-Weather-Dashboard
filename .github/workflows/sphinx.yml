@@ -3,8 +3,7 @@ name: Build and Deploy Documentation
 on:
   push:
     branches:
-      - main  # This workflow runs when changes are pushed to the 'main' branch
-  pull_request:
+      - main  # Trigger when the main branch is updated
 
 jobs:
   build-docs:
@@ -14,24 +13,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.x  # Specify your Python version
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          poetry install  # This installs dependencies based on your poetry.lock and pyproject.toml
 
       - name: Build documentation
         run: |
           cd docs
-          make html  # Adjust if you're using another build command
+          poetry run make html  # Run the Sphinx build command within the Poetry environment
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/_build/html  # Specify the directory where the built HTML files are located
-          publish_branch: gh-pages  # GitHub Pages default branch
+          publish_dir: ./docs/_build/html  # Directory where built HTML is located
+          publish_branch: gh-pages  # GitHub Pages branch
