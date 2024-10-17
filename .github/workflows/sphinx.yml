@@ -1,0 +1,42 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main  # Trigger when the main branch is updated
+      
+permissions:
+  contents: write 
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11  # Ensure Python 3.11 is used
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'  # Specify the Python version to match your project's requirement
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install dependencies
+        run: |
+          poetry install  # This installs dependencies based on your poetry.lock and pyproject.toml
+
+      - name: Build documentation
+        run: |
+          cd docs
+          poetry run make html  # Run the Sphinx build command within the Poetry environment
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build/html  # Directory where built HTML is located
+          publish_branch: gh-pages  # GitHub Pages branch
