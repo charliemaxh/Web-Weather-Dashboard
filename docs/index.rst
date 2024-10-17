@@ -15,6 +15,6 @@ documentation for details.
    :maxdepth: 2
    :caption: Contents:
 
-   modules.rst 
-   web_weather_dashboard.rst
+   source/modules.rst 
+   source/web_weather_dashboard.rst
 
