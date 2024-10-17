@@ -13,6 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set up Python 3.11  # Ensure Python 3.11 is used
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'  # Specify the Python version to match your project's requirement
+
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
