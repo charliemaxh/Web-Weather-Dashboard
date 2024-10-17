@@ -16,4 +16,5 @@ documentation for details.
    :caption: Contents:
 
    modules.rst 
+   web_weather_dashboard.rst
 
